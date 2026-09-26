@@ -1,0 +1,19 @@
+root = true
+
+[*.{kt,kts}]
+ij_kotlin_allow_trailing_comma = true
+ij_kotlin_allow_trailing_comma_on_call_site = true
+indent_size = 4
+insert_final_newline = true
+ktlint_code_style = intellij_idea
+ktlint_function_naming_ignore_when_annotated_with = Composable
+max_line_length = 240
+
+[*.{xml,toml,properties}]
+indent_size = 4
+insert_final_newline = true
+
+[*.swift]
+indent_size = 4
+insert_final_newline = true
+max_line_length = 240
