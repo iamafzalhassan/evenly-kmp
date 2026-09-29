@@ -4,8 +4,9 @@
 ![Compose Multiplatform](https://img.shields.io/badge/Compose_Multiplatform-1.11-4285F4?logo=jetpackcompose&logoColor=white)
 ![Supabase](https://img.shields.io/badge/Supabase-Postgres_%2B_RLS-3FCF8E?logo=supabase&logoColor=white)
 ![Platforms](https://img.shields.io/badge/platforms-Android%20%7C%20iOS-3DDC84)
+[![CI](https://github.com/iamafzalhassan/evenly-kmp/actions/workflows/ci.yml/badge.svg)](https://github.com/iamafzalhassan/evenly-kmp/actions/workflows/ci.yml)
 
-A shared expense tracker for Android and iOS, built with Kotlin Multiplatform and Compose Multiplatform. Friends, flatmates and travel groups log what they spend, split it fairly, and settle up with as few payments as possible.
+A shared expense tracker for Android and iOS, built with Kotlin Multiplatform and Compose Multiplatform. Friends, flatmates and travel groups log what they spend, split it fairly, and settle up in at most one payment fewer than the number of members.
 
 Evenly is local-first: every change is saved on the device and every screen works without a connection. When online, groups sync between everyone in them. There is no sign-up; friends join a group with an invite code.
 
@@ -18,7 +19,7 @@ Evenly is local-first: every change is saved on the device and every screen work
 - **Multi-currency expenses**: pay in euros on a trip for a rupee group, enter the rate once, and Evenly converts every share exactly. The rate is remembered for next time.
 - **Group summary** with total spent, number of expenses and amount paid back, plus search across expenses by title or payer.
 - **Balances** showing who gets back and who owes, recalculated from the expenses every time anything changes.
-- **Settle up** suggestions that clear every debt in the fewest payments. Tap a suggestion to record it as paid.
+- **Settle up** suggestions that clear every debt in at most _n − 1_ payments for a group of _n_ people. Tap a suggestion to record it as paid.
 - **Payment history**, where a recorded payment can be deleted if it was a mistake.
 - **Safe member removal**: a member can only be removed once no expense or payment refers to them.
 - **App lock** with Face ID, fingerprint or device passcode, locking on launch and after 30 seconds in the background, and hiding the app's content in the app switcher while it is on.
@@ -26,11 +27,11 @@ Evenly is local-first: every change is saved on the device and every screen work
 
 ## Architecture
 
-All domain logic, data and UI live in one shared module. The Android and iOS apps are thin entry points: `MainActivity` with `BiometricPrompt` on Android, and a Compose view controller with `LocalAuthentication` on iOS.
+All domain logic, data and UI live in one shared module. The Android and iOS apps are thin entry points: `MainActivity` on Android, which constructs the shared `AndroidBiometricAuthenticator` (built on `BiometricPrompt`), and a Compose view controller on iOS, which uses `IosBiometricAuthenticator` (built on `LocalAuthentication`). Both authenticators live in the shared module's platform source sets.
 
 - **Layers.** `ui` (screens, ViewModels, UI state and events) depends on `domain` (`ExpenseSplitter`, `ExpenseValuation`, `BalanceCalculator`, `SettleUpPlanner`) and `data` (repositories). `data` reads Room entities and DAOs in `data/sources` and talks to Supabase through `SyncCoordinator` and `SyncEngine` in `data/sync`. `model` holds the shared types, and `security` holds the `BiometricAuthenticator` contract.
 - **Unidirectional data flow.** Each screen has a ViewModel exposing one immutable `UiState` as a `StateFlow` and accepting a sealed `Event` through a single `onEvent`.
-- **Layering is enforced by convention.** Composables never touch repositories, ViewModels never import Compose UI, and `model` and `domain` are pure Kotlin with no IO.
+- **Layering is enforced by convention.** Composables never touch repositories, ViewModels never import Compose UI, and `model` and `domain` are pure Kotlin with no IO, apart from the Compose runtime `@Immutable` stability annotation on `model` types.
 - **Derived data is never stored.** Balances and settle-up suggestions are recomputed from expenses and payments, so a fix to the splitting logic corrects every past expense.
 - **Manual dependency graph.** `AppGraph` builds the database and repositories once per process; each navigation destination creates its ViewModel from it.
 
@@ -58,8 +59,8 @@ Evenly is local-first. The UI only ever reads from the on-device Room database; 
 
 1. **Every write is local first.** A change is stored immediately with `isDirty = true` and the device's modification time, and a debounced sync is requested.
 2. **Push.** `SyncEngine` uploads dirty rows in dependency order (groups, members, expenses, payments) as upserts, then marks each row clean only if it was not edited again while uploading.
-3. **Pull by sequence, not by clock.** The server stamps every accepted write with a value from a single Postgres sequence, and a statement-level trigger takes one transaction-scoped advisory lock before any write, so rows commit in sequence order. Each device keeps one cursor per table and pulls rows past it, so pulling is gap-free and immune to clock skew between devices. A page is applied in one pass: rows the device already holds unchanged are skipped, and a child row whose group is not on the device yet fetches that group first.
-4. **Conflicts resolve per row, last writer wins.** A server trigger ignores any write older than the stored row, and a pulled row never overwrites a newer unsynced local edit. An expense and its split travel together (shares are a JSON array on the expense row), so a split can never be half-updated.
+3. **Pull by sequence, not by clock.** The server stamps every accepted write with a value from a single Postgres sequence, and a statement-level trigger takes one transaction-scoped advisory lock before any write, so rows commit in sequence order. Each device keeps one cursor per table and pulls rows past it, so pulling is gap-free and unaffected by clock skew between devices. A page is applied in one pass: rows the device already holds unchanged are skipped, and a child row whose group is not on the device yet fetches that group first.
+4. **Conflicts resolve per row, last writer wins.** Every row carries `modified_at_ms`, the editing device's clock at the time of the change. A server trigger ignores any write whose `modified_at_ms` is older than the stored row's, and a pulled row never overwrites a newer unsynced local edit. Unlike pulling, this comparison uses device clocks, so a device whose clock is wrong can win or lose a conflicting edit it should not. An expense and its split travel together (shares are a JSON array on the expense row), so a split can never be half-updated.
 5. **Deletes are tombstones**, so a deletion reaches every device instead of being resurrected by a stale copy.
 6. **Bad rows never spread.** Check constraints on the server reject malformed amounts, currencies, split kinds and shares, and every pulled row is validated again on the device, so one broken write cannot crash another participant's app. If the server rejects a batch, rows are retried one at a time so a single bad row cannot block the rest.
 
@@ -82,7 +83,7 @@ Evenly is local-first. The UI only ever reads from the on-device Room database; 
 | Backend | Supabase: Postgres with row-level security, anonymous auth, supabase-kt with Ktor (OkHttp on Android, Darwin on iOS) |
 | Security | AndroidX Biometric, iOS LocalAuthentication, platform file protection |
 | Dates | kotlinx-datetime |
-| Testing | kotlin.test in `commonTest`, run on the JVM and the iOS simulator |
+| Testing | kotlin.test in `commonTest`, run in GitHub Actions CI on the JVM and the iOS simulator |
 
 ## Design system
 
@@ -134,10 +135,12 @@ iosApp/             iOS entry point (Xcode project)
 The money logic that every balance depends on is covered by unit tests in `shared/src/commonTest`, mirroring the source packages:
 
 - **`domain/ExpenseSplitterTest`**: equal splits hand leftover cents to the first participants, percentage splits use the largest remainder, shares always add up to the total, and invalid splits are rejected.
-- **`domain/SettleUpPlannerTest`**: any group settles in at most _n − 1_ payments that clear every balance, largest debtor pays largest creditor first, and a settled group needs no payments.
+- **`domain/ExpenseValuationTest`**: foreign-currency shares are converted one by one and the rounding difference is corrected in either direction so they add up to the converted total, and group-currency shares are left unconverted.
+- **`domain/SettleUpPlannerTest`**: any group settles in at most _n − 1_ payments that clear every balance, checked on a fixed example and on 1,000 seeded random groups, largest debtor pays largest creditor first, and a settled group needs no payments.
 - **`model/ExchangeRateTest`**: exact integer conversion between currencies with the same, more or fewer decimal places, rounding half up, and rejection of the wrong currency or a negative amount.
+- **`util/MoneyFormatTest`**: formatting with and without minor units, thousands grouping, padded fractions and negative signs, and parsing grouped input back to minor units.
 
-Run them with `./gradlew :shared:testAndroidHostTest` (JVM) or `./gradlew :shared:iosSimulatorArm64Test` (macOS).
+Run them with `./gradlew :shared:testAndroidHostTest` (JVM) or `./gradlew :shared:iosSimulatorArm64Test` (macOS). [CI](.github/workflows/ci.yml) runs both on demand, on the JVM and the iOS simulator; start it from the Actions tab.
 
 ## Roadmap
 
