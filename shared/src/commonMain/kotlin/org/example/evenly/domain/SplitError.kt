@@ -1,3 +1,0 @@
-package org.example.evenly.domain
-
-enum class SplitError { DUPLICATE_PARTICIPANT, NEGATIVE_SHARE, NO_PARTICIPANTS, NON_POSITIVE_AMOUNT, SHARES_DO_NOT_MATCH_TOTAL }

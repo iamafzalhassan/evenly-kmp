@@ -19,6 +19,7 @@
     <string name="action_record_payment">Record Payment</string>
     <string name="action_remove_member">Remove Member</string>
     <string name="action_rename_group">Rename Group</string>
+    <string name="action_replace_code">Replace Code</string>
     <string name="action_save">Save</string>
     <string name="action_save_expense">Save Expense</string>
     <string name="action_share_code">Share Code</string>
@@ -94,6 +95,8 @@
     <string name="groups_empty_message">Create a group for a trip, a shared flat or a night out, or join one with an invite code from a friend.</string>
     <string name="groups_empty_title">No groups yet</string>
     <string name="groups_title">Groups</string>
+    <string name="invite_code_replace_failed">Evenly could not replace the invite code. Check your connection, then try again.</string>
+    <string name="invite_code_replaced">The invite code was replaced. The old code no longer works, so share the new one with anyone you still want to invite.</string>
     <string name="invite_message">Share this code. Anyone who enters it in Evenly joins this group and can see and add expenses.</string>
     <string name="invite_pending">This group gets an invite code after it syncs for the first time. Connect to the internet, then pull down on the group to refresh.</string>
     <string name="invite_share_text">Join “%1$s” in Evenly with the invite code %2$s</string>
@@ -116,6 +119,7 @@
     <string name="payment_recorded">Payment recorded. Balances and settle-up suggestions now include it.</string>
     <string name="record_payment_message">Record that %1$s paid %2$s %3$s? Balances update straight away.</string>
     <string name="remove_member_message">Remove %1$s from this group? You can add them again later.</string>
+    <string name="replace_code_message">The current invite code stops working and the group gets a new one. People who already joined stay in the group.</string>
     <string name="save_blocker_amount">Enter an amount to save</string>
     <string name="save_blocker_exchange_rate">Enter the exchange rate to save</string>
     <string name="save_blocker_payer">Choose who paid to save</string>
@@ -128,6 +132,7 @@
     <string name="settings_app_lock_hint">When app lock is on, Evenly asks you to unlock it every time it opens and after 30 seconds in the background, and hides your groups in the app switcher.</string>
     <string name="settings_app_lock_not_enrolled">Add a fingerprint or face to this device first</string>
     <string name="settings_app_lock_reason">Confirm it is you to change app lock</string>
+    <string name="settings_app_lock_temporarily_unavailable">Unavailable right now, try again in a moment</string>
     <string name="settings_app_lock_title">App lock</string>
     <string name="settings_app_lock_unavailable">Set a screen lock on this device first</string>
     <string name="settings_data_heading">Your data</string>

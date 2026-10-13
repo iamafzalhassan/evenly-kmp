@@ -1,0 +1,7 @@
+package org.example.evenly.feature.settings
+
+import androidx.compose.runtime.Immutable
+import org.example.evenly.core.sync.SyncStatus
+
+@Immutable
+data class SettingsUiState(val isBiometricLockEnabled: Boolean = false, val isLoading: Boolean = true, val feedback: SettingsFeedback? = null, val syncStatus: SyncStatus = SyncStatus())
