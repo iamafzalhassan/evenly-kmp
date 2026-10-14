@@ -1,4 +1,4 @@
-package org.example.evenly.core.designsystem.components
+package org.example.evenly.core.ui.components
 
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDefaults
@@ -13,7 +13,7 @@ import evenly.shared.generated.resources.Res
 import evenly.shared.generated.resources.action_cancel
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
-import org.example.evenly.core.designsystem.theme.AppColors
+import org.example.evenly.core.ui.theme.AppColors
 import org.jetbrains.compose.resources.stringResource
 import kotlin.time.Instant
 

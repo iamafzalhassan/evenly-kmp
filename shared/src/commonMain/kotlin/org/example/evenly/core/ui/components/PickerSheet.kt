@@ -1,4 +1,4 @@
-package org.example.evenly.core.designsystem.components
+package org.example.evenly.core.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,8 +10,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import org.example.evenly.core.designsystem.theme.AppColors
-import org.example.evenly.core.designsystem.theme.AppSpacing
+import org.example.evenly.core.ui.theme.AppColors
+import org.example.evenly.core.ui.theme.AppSpacing
 
 @Composable
 fun <T> PickerSheet(

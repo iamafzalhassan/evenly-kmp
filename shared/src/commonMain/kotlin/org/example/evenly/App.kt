@@ -1,4 +1,4 @@
-package org.example.evenly.app
+package org.example.evenly
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,13 +14,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import kotlinx.coroutines.delay
+import org.example.evenly.app.AppGraph
 import org.example.evenly.app.navigation.CreateGroupRoute
 import org.example.evenly.app.navigation.ExpenseEditorRoute
 import org.example.evenly.app.navigation.GroupRoute
 import org.example.evenly.app.navigation.GroupsRoute
 import org.example.evenly.app.navigation.SettingsRoute
-import org.example.evenly.core.designsystem.theme.AppColors
-import org.example.evenly.core.designsystem.theme.EvenlyTheme
+import org.example.evenly.core.ui.theme.AppColors
+import org.example.evenly.core.ui.theme.EvenlyTheme
 import org.example.evenly.core.model.ExpenseId
 import org.example.evenly.core.model.GroupId
 import org.example.evenly.core.security.BiometricAuthenticator

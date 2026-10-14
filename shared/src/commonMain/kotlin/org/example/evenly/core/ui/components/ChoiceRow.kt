@@ -1,4 +1,4 @@
-package org.example.evenly.core.designsystem.components
+package org.example.evenly.core.ui.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -19,9 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextOverflow
-import org.example.evenly.core.designsystem.theme.AppColors
-import org.example.evenly.core.designsystem.theme.AppSpacing
-import org.example.evenly.core.designsystem.theme.AppTheme
+import org.example.evenly.core.ui.theme.AppColors
+import org.example.evenly.core.ui.theme.AppSpacing
+import org.example.evenly.core.ui.theme.AppTheme
 
 @Composable
 fun <T> ChoiceRow(options: List<T>, label: (T) -> String, onSelect: (T) -> Unit, selected: T, modifier: Modifier = Modifier) {

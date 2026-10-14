@@ -1,4 +1,4 @@
-package org.example.evenly.core.designsystem.components
+package org.example.evenly.core.ui.components
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,8 +9,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
-import org.example.evenly.core.designsystem.theme.AppColors
-import org.example.evenly.core.designsystem.theme.AppSpacing
+import org.example.evenly.core.ui.theme.AppColors
+import org.example.evenly.core.ui.theme.AppSpacing
 
 private const val DASH_GAP: Float = 4f
 private const val DASH_WIDTH: Float = 3f

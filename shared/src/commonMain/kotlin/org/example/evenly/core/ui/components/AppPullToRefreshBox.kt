@@ -1,4 +1,4 @@
-package org.example.evenly.core.designsystem.components
+package org.example.evenly.core.ui.components
 
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.padding
@@ -8,7 +8,7 @@ import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import org.example.evenly.core.designsystem.theme.AppSpacing
+import org.example.evenly.core.ui.theme.AppSpacing
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

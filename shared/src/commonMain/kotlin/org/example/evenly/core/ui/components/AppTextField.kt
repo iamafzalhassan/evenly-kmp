@@ -1,4 +1,4 @@
-package org.example.evenly.core.designsystem.components
+package org.example.evenly.core.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -47,9 +47,9 @@ import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import org.example.evenly.core.designsystem.theme.AppColors
-import org.example.evenly.core.designsystem.theme.AppSpacing
-import org.example.evenly.core.designsystem.theme.AppTheme
+import org.example.evenly.core.ui.theme.AppColors
+import org.example.evenly.core.ui.theme.AppSpacing
+import org.example.evenly.core.ui.theme.AppTheme
 import org.example.evenly.core.format.DecimalInput
 
 private const val GROUP_SIZE: Int = 3

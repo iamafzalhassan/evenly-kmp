@@ -1,4 +1,4 @@
-package org.example.evenly.core.designsystem.theme
+package org.example.evenly.core.ui.theme
 
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors

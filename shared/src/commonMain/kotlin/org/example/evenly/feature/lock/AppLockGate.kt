@@ -27,10 +27,10 @@ import evenly.shared.generated.resources.lock_prompt_reason
 import evenly.shared.generated.resources.lock_prompt_title
 import evenly.shared.generated.resources.lock_title
 import kotlinx.coroutines.launch
-import org.example.evenly.core.designsystem.components.EmptyState
-import org.example.evenly.core.designsystem.components.PrimaryButton
-import org.example.evenly.core.designsystem.theme.AppColors
-import org.example.evenly.core.designsystem.theme.AppSpacing
+import org.example.evenly.core.ui.components.EmptyState
+import org.example.evenly.core.ui.components.PrimaryButton
+import org.example.evenly.core.ui.theme.AppColors
+import org.example.evenly.core.ui.theme.AppSpacing
 import org.example.evenly.core.security.BiometricAuthenticator
 import org.example.evenly.core.security.BiometricAvailability
 import org.example.evenly.core.security.BiometricResult

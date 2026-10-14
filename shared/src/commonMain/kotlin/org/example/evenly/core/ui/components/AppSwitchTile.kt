@@ -1,11 +1,11 @@
-package org.example.evenly.core.designsystem.components
+package org.example.evenly.core.ui.components
 
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import org.example.evenly.core.designsystem.theme.AppColors
+import org.example.evenly.core.ui.theme.AppColors
 
 @Composable
 fun AppSwitchTile(isChecked: Boolean, subtitle: String, title: String, onCheckedChange: (Boolean) -> Unit, icon: ImageVector, modifier: Modifier = Modifier, isEnabled: Boolean = true) {

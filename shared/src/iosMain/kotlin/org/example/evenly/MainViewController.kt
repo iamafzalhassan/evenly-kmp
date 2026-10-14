@@ -1,7 +1,6 @@
 package org.example.evenly
 
 import androidx.compose.ui.window.ComposeUIViewController
-import org.example.evenly.app.App
 import org.example.evenly.app.AppGraph
 import org.example.evenly.app.createAppGraph
 import org.example.evenly.core.security.BiometricAuthenticator

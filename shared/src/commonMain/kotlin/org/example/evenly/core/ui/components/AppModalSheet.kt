@@ -1,4 +1,4 @@
-package org.example.evenly.core.designsystem.components
+package org.example.evenly.core.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,9 +25,9 @@ import evenly.shared.generated.resources.Res
 import evenly.shared.generated.resources.action_cancel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import org.example.evenly.core.designsystem.theme.AppColors
-import org.example.evenly.core.designsystem.theme.AppSpacing
-import org.example.evenly.core.designsystem.theme.AppTheme
+import org.example.evenly.core.ui.theme.AppColors
+import org.example.evenly.core.ui.theme.AppSpacing
+import org.example.evenly.core.ui.theme.AppTheme
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)

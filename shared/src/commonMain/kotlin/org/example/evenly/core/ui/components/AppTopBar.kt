@@ -1,4 +1,4 @@
-package org.example.evenly.core.designsystem.components
+package org.example.evenly.core.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
@@ -18,9 +18,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import evenly.shared.generated.resources.Res
 import evenly.shared.generated.resources.action_back
-import org.example.evenly.core.designsystem.theme.AppColors
-import org.example.evenly.core.designsystem.theme.AppSpacing
-import org.example.evenly.core.designsystem.theme.AppTheme
+import org.example.evenly.core.ui.theme.AppColors
+import org.example.evenly.core.ui.theme.AppSpacing
+import org.example.evenly.core.ui.theme.AppTheme
 import org.jetbrains.compose.resources.stringResource
 
 @Composable

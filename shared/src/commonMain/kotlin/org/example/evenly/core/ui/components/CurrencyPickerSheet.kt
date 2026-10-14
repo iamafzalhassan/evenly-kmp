@@ -1,4 +1,4 @@
-package org.example.evenly.core.designsystem.components
+package org.example.evenly.core.ui.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CurrencyExchange
