@@ -1,7 +1,7 @@
 package org.example.evenly.feature.expenseeditor
 
-import org.example.evenly.core.model.Currency
-import org.example.evenly.core.model.MemberId
+import org.example.evenly.domain.group.MemberId
+import org.example.evenly.domain.money.Currency
 
 sealed interface ExpenseEditorEvent {
     data class ChangeAmount(val text: String) : ExpenseEditorEvent

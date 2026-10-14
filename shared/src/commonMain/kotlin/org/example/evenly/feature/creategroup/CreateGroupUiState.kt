@@ -1,9 +1,9 @@
 package org.example.evenly.feature.creategroup
 
 import androidx.compose.runtime.Immutable
-import org.example.evenly.core.model.Currency
-import org.example.evenly.core.model.Group
-import org.example.evenly.core.model.GroupId
+import org.example.evenly.domain.group.Group
+import org.example.evenly.domain.group.GroupId
+import org.example.evenly.domain.money.Currency
 
 @Immutable
 data class CreateGroupUiState(

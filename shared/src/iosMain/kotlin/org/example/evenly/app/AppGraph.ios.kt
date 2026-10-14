@@ -2,8 +2,8 @@ package org.example.evenly.app
 
 import androidx.room.Room
 import kotlinx.cinterop.ExperimentalForeignApi
-import org.example.evenly.core.database.DATABASE_FILE_NAME
-import org.example.evenly.core.database.EvenlyDatabase
+import org.example.evenly.data.local.DATABASE_FILE_NAME
+import org.example.evenly.data.local.EvenlyDatabase
 import platform.Foundation.NSApplicationSupportDirectory
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSFileProtectionCompleteUnlessOpen

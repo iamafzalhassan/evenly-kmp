@@ -20,14 +20,14 @@ import evenly.shared.generated.resources.invite_message
 import evenly.shared.generated.resources.invite_pending
 import evenly.shared.generated.resources.invite_share_text
 import evenly.shared.generated.resources.invite_title
-import org.example.evenly.core.ui.components.AppModalSheet
-import org.example.evenly.core.ui.components.PrimaryButton
-import org.example.evenly.core.ui.components.SecondaryButton
-import org.example.evenly.core.ui.components.SheetActions
-import org.example.evenly.core.ui.theme.AppColors
-import org.example.evenly.core.ui.theme.AppSpacing
-import org.example.evenly.core.ui.theme.AppTheme
-import org.example.evenly.core.platform.rememberTextSharer
+import org.example.evenly.platform.rememberTextSharer
+import org.example.evenly.ui.components.control.PrimaryButton
+import org.example.evenly.ui.components.control.SecondaryButton
+import org.example.evenly.ui.components.sheet.AppModalSheet
+import org.example.evenly.ui.components.sheet.SheetActions
+import org.example.evenly.ui.theme.AppColors
+import org.example.evenly.ui.theme.AppSpacing
+import org.example.evenly.ui.theme.AppTheme
 import org.jetbrains.compose.resources.stringResource
 
 @Composable

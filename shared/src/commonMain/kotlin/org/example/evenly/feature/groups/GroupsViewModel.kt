@@ -9,11 +9,11 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.example.evenly.core.common.STATE_STOP_TIMEOUT_MILLIS
-import org.example.evenly.core.data.GroupRepository
-import org.example.evenly.core.model.GroupId
-import org.example.evenly.core.sync.JoinResult
-import org.example.evenly.core.sync.SyncCoordinator
+import org.example.evenly.common.STATE_STOP_TIMEOUT_MILLIS
+import org.example.evenly.data.repository.GroupRepository
+import org.example.evenly.data.sync.JoinResult
+import org.example.evenly.data.sync.SyncCoordinator
+import org.example.evenly.domain.group.GroupId
 
 class GroupsViewModel(groupRepository: GroupRepository, private val syncCoordinator: SyncCoordinator) : ViewModel() {
     private val screenState: MutableStateFlow<GroupsUiState> = MutableStateFlow(GroupsUiState())

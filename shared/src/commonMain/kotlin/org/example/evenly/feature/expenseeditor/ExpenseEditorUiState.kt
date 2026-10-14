@@ -1,19 +1,19 @@
 package org.example.evenly.feature.expenseeditor
 
 import androidx.compose.runtime.Immutable
-import org.example.evenly.core.domain.ExpenseSplitter
-import org.example.evenly.core.domain.SplitError
-import org.example.evenly.core.format.MoneyFormat
-import org.example.evenly.core.format.PercentFormat
-import org.example.evenly.core.format.RateFormat
-import org.example.evenly.core.model.Currency
-import org.example.evenly.core.model.ExchangeRate
-import org.example.evenly.core.model.ExpenseId
-import org.example.evenly.core.model.Group
-import org.example.evenly.core.model.Member
-import org.example.evenly.core.model.MemberId
-import org.example.evenly.core.model.Money
-import org.example.evenly.core.model.SplitRule
+import org.example.evenly.domain.expense.ExpenseId
+import org.example.evenly.domain.expense.ExpenseSplitter
+import org.example.evenly.domain.expense.SplitError
+import org.example.evenly.domain.expense.SplitRule
+import org.example.evenly.domain.group.Group
+import org.example.evenly.domain.group.Member
+import org.example.evenly.domain.group.MemberId
+import org.example.evenly.domain.money.Currency
+import org.example.evenly.domain.money.ExchangeRate
+import org.example.evenly.domain.money.Money
+import org.example.evenly.ui.format.MoneyFormat
+import org.example.evenly.ui.format.PercentFormat
+import org.example.evenly.ui.format.RateFormat
 import kotlin.time.Instant
 
 @Immutable

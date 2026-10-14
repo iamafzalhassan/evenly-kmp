@@ -29,9 +29,9 @@ Evenly is local-first: every change is saved on the device and every screen work
 
 All domain logic, data and UI live in one shared module. The Android and iOS apps are thin entry points: `MainActivity` on Android, which constructs the shared `AndroidBiometricAuthenticator` (built on `BiometricPrompt`), and a Compose view controller on iOS, which uses `IosBiometricAuthenticator` (built on `LocalAuthentication`). Both authenticators live in the shared module's platform source sets.
 
-- **Core and features.** Each screen flow is a package under `feature/` (screen, ViewModel, UI state and events) that depends only on `core/`. Inside `core/`, `domain` (`ExpenseSplitter`, `ExpenseValuation`, `BalanceCalculator`, `SettleUpPlanner`) and `data` (repositories) do the work; `data` reads Room entities and DAOs in `database` and talks to Supabase through `SyncCoordinator` and `SyncEngine` in `sync`. `model` holds the shared types, `designsystem` the theme and components, and `security` the `BiometricAuthenticator` contract. Features never import each other; `app/` wires them together through navigation.
+- **Packages named for their role.** `domain` holds the pure business rules, grouped by concept (`money`, `group`, `expense`, `settlement`, `ledger`). `data` holds Room (`local`), Supabase (`remote`), `sync` and the repositories. `platform` holds the `BiometricAuthenticator` contract and the other expect/actual bridges, `ui` the theme, components and formatters, and `feature` one package per screen flow (screen, ViewModel, UI state and events). Dependencies point inward to `domain`, features never import each other, and `app` wires everything together through navigation.
 - **Unidirectional data flow.** Each screen has a ViewModel exposing one immutable `UiState` as a `StateFlow` and accepting a sealed `Event` through a single `onEvent`.
-- **Layering is enforced by convention.** Composables never touch repositories, ViewModels never import Compose UI, and `core/model` and `core/domain` are pure Kotlin with no IO, apart from the Compose runtime `@Immutable` stability annotation on `model` types.
+- **Layering is enforced by convention.** Composables never touch repositories, ViewModels never import Compose UI, and `domain` is pure Kotlin with no IO, apart from the Compose runtime `@Immutable` stability annotation on its types.
 - **Derived data is never stored.** Balances and settle-up suggestions are recomputed from expenses and payments, so a fix to the splitting logic corrects every past expense.
 - **Manual dependency graph.** `AppGraph` builds the database and repositories once per process; each navigation destination creates its ViewModel from it.
 
@@ -87,7 +87,7 @@ Evenly is local-first. The UI only ever reads from the on-device Room database; 
 
 ## Design system
 
-Evenly shares one design system with two other apps of mine: warm paper surfaces, navy ink, and a dotted divider as the signature motif. Colours, spacing and typography are tokens in `core/designsystem/theme`, with SF Pro Display for all text and tabular figures on every amount so columns of money line up. Shared components (`AppTextField`, `AppAmountField`, `AppPickerField`, `AppModalSheet`, `AppListTile`, `AppSwitchTile`, `ChoiceRow`, `TotalsBlock`, `ConfirmSheet`, `TextInputSheet`, `CurrencyPickerSheet`, `AppDatePickerDialog`, and more) live in `core/designsystem/components`. Screens never use a raw colour or a bare measurement.
+Evenly shares one design system with two other apps of mine: warm paper surfaces, navy ink, and a dotted divider as the signature motif. Colours, spacing and typography are tokens in `ui/theme`, with SF Pro Display for all text and tabular figures on every amount so columns of money line up. Shared components (`AppTextField`, `AppAmountField`, `AppPickerField`, `AppModalSheet`, `AppListTile`, `AppSwitchTile`, `ChoiceRow`, `TotalsBlock`, `ConfirmSheet`, `TextInputSheet`, `CurrencyPickerSheet`, `AppDatePickerDialog`, and more) live in `ui/components`, grouped into `sheet`, `control`, `feedback` and `display`. Screens never use a raw colour or a bare measurement.
 
 ## Code conventions
 
@@ -100,17 +100,20 @@ Evenly shares one design system with two other apps of mine: warm paper surfaces
 ```
 shared/src/commonMain/kotlin/org/example/evenly/
     app/                          App, AppGraph, navigation routes
-    core/model/                   Group, Member, Expense, SplitRule, Money, ExchangeRate, Settlement, Balance, Transfer
-    core/domain/                  ExpenseSplitter, ExpenseValuation, BalanceCalculator, SettleUpPlanner, GroupLedger, LedgerIntegrity, MemberUsage
-    core/database/                EvenlyDatabase, entities, DAOs
-    core/data/                    Group, Expense, Settlement, ExchangeRate and Settings repositories, mapping
-    core/sync/                    Supabase client, remote rows, SyncEngine, SyncCoordinator
-    core/security/                BiometricAuthenticator
-    core/designsystem/theme/      AppColors, AppSpacing, AppTextStyles, EvenlyTheme
-    core/designsystem/components/ Shared design-system components
-    core/format/                  MoneyFormat, RateFormat, PercentFormat, DecimalInput, DateFormat
-    core/platform/                DeviceLocale, TextSharer
-    core/common/                  LocalDates, coroutine and state helpers
+    domain/money/                 Money, Currency, ExchangeRate
+    domain/group/                 Group, Member, MemberUsage
+    domain/expense/               Expense, SplitRule, ExpenseSplitter, ExpenseValuation
+    domain/settlement/            Settlement, Transfer, Balance, BalanceCalculator, SettleUpPlanner
+    domain/ledger/                GroupLedger, LedgerIntegrity
+    data/local/                   EvenlyDatabase, entity/, dao/
+    data/remote/                  Supabase client, remote rows, session storage
+    data/sync/                    SyncEngine, SyncCoordinator
+    data/repository/              Group, Expense, Settlement, ExchangeRate and Settings repositories, mapping
+    platform/                     BiometricAuthenticator, DeviceLocale, TextSharer
+    ui/theme/                     AppColors, AppSpacing, AppTextStyles, EvenlyTheme
+    ui/components/                Shared components: sheet/, control/, feedback/, display/
+    ui/format/                    MoneyFormat, RateFormat, PercentFormat, DecimalInput, DateFormat
+    common/                       LocalDates, coroutine and state helpers
     feature/groups/               Group list
     feature/creategroup/          New group form
     feature/group/                Summary, balances, settle up, expenses, payments, members
@@ -136,11 +139,11 @@ iosApp/             iOS entry point (Xcode project)
 
 The money logic that every balance depends on is covered by unit tests in `shared/src/commonTest`, mirroring the source packages:
 
-- **`core/domain/ExpenseSplitterTest`**: equal splits hand leftover cents to the first participants, percentage splits use the largest remainder, shares always add up to the total, and invalid splits are rejected.
-- **`core/domain/ExpenseValuationTest`**: foreign-currency shares are converted one by one and the rounding difference is corrected in either direction so they add up to the converted total, and group-currency shares are left unconverted.
-- **`core/domain/SettleUpPlannerTest`**: any group settles in at most _n − 1_ payments that clear every balance, checked on a fixed example and on 1,000 seeded random groups, largest debtor pays largest creditor first, and a settled group needs no payments.
-- **`core/model/ExchangeRateTest`**: exact integer conversion between currencies with the same, more or fewer decimal places, rounding half up, and rejection of the wrong currency or a negative amount.
-- **`core/format/MoneyFormatTest`**: formatting with and without minor units, thousands grouping, padded fractions and negative signs, and parsing grouped input back to minor units.
+- **`domain/expense/ExpenseSplitterTest`**: equal splits hand leftover cents to the first participants, percentage splits use the largest remainder, shares always add up to the total, and invalid splits are rejected.
+- **`domain/expense/ExpenseValuationTest`**: foreign-currency shares are converted one by one and the rounding difference is corrected in either direction so they add up to the converted total, and group-currency shares are left unconverted.
+- **`domain/settlement/SettleUpPlannerTest`**: any group settles in at most _n − 1_ payments that clear every balance, checked on a fixed example and on 1,000 seeded random groups, largest debtor pays largest creditor first, and a settled group needs no payments.
+- **`domain/money/ExchangeRateTest`**: exact integer conversion between currencies with the same, more or fewer decimal places, rounding half up, and rejection of the wrong currency or a negative amount.
+- **`ui/format/MoneyFormatTest`**: formatting with and without minor units, thousands grouping, padded fractions and negative signs, and parsing grouped input back to minor units.
 
 Run them with `./gradlew :shared:testAndroidHostTest` (JVM) or `./gradlew :shared:iosSimulatorArm64Test` (macOS). [CI](.github/workflows/ci.yml) runs both on demand, on the JVM and the iOS simulator; start it from the Actions tab.
 
@@ -151,5 +154,5 @@ Run them with `./gradlew :shared:testAndroidHostTest` (JVM) or `./gradlew :share
 - Link an anonymous identity to an email so groups can be restored on a new phone
 - Export a group's history
 - Crash and performance monitoring
-- **`core/domain/LedgerIntegrityTest`**: expenses and payments that name someone outside the group, fall outside the supported dates, exceed the amount limit or carry an overlong title are rejected, and names must be present and within their limit.
-- **`core/database/RowSyncStateTest`**: a pulled row replaces a clean local copy only when it differs, never overwrites a newer unsynced local edit, and is always accepted for a row the device does not have.
+- **`domain/ledger/LedgerIntegrityTest`**: expenses and payments that name someone outside the group, fall outside the supported dates, exceed the amount limit or carry an overlong title are rejected, and names must be present and within their limit.
+- **`data/local/entity/RowSyncStateTest`**: a pulled row replaces a clean local copy only when it differs, never overwrites a newer unsynced local edit, and is always accepted for a row the device does not have.

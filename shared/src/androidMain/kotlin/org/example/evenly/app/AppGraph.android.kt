@@ -2,8 +2,8 @@ package org.example.evenly.app
 
 import android.content.Context
 import androidx.room.Room
-import org.example.evenly.core.database.DATABASE_FILE_NAME
-import org.example.evenly.core.database.EvenlyDatabase
+import org.example.evenly.data.local.DATABASE_FILE_NAME
+import org.example.evenly.data.local.EvenlyDatabase
 
 fun createAppGraph(context: Context): AppGraph {
     val appContext = context.applicationContext

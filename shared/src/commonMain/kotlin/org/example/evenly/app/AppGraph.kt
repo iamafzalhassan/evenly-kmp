@@ -4,17 +4,17 @@ import androidx.room.RoomDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import org.example.evenly.core.data.ExchangeRateRepository
-import org.example.evenly.core.data.ExpenseRepository
-import org.example.evenly.core.data.GroupRepository
-import org.example.evenly.core.data.SettingsRepository
-import org.example.evenly.core.data.SettlementRepository
-import org.example.evenly.core.database.EvenlyDatabase
-import org.example.evenly.core.database.buildEvenlyDatabase
-import org.example.evenly.core.sync.SupabaseRemote
-import org.example.evenly.core.sync.SyncCoordinator
-import org.example.evenly.core.sync.SyncEngine
-import org.example.evenly.core.sync.createEvenlySupabaseClient
+import org.example.evenly.data.local.EvenlyDatabase
+import org.example.evenly.data.local.buildEvenlyDatabase
+import org.example.evenly.data.remote.SupabaseRemote
+import org.example.evenly.data.remote.createEvenlySupabaseClient
+import org.example.evenly.data.repository.ExchangeRateRepository
+import org.example.evenly.data.repository.ExpenseRepository
+import org.example.evenly.data.repository.GroupRepository
+import org.example.evenly.data.repository.SettingsRepository
+import org.example.evenly.data.repository.SettlementRepository
+import org.example.evenly.data.sync.SyncCoordinator
+import org.example.evenly.data.sync.SyncEngine
 
 class AppGraph internal constructor(databaseBuilder: RoomDatabase.Builder<EvenlyDatabase>) {
     private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)

@@ -7,7 +7,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.FragmentActivity
-import org.example.evenly.core.security.AndroidBiometricAuthenticator
+import org.example.evenly.app.App
+import org.example.evenly.platform.AndroidBiometricAuthenticator
 
 class MainActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

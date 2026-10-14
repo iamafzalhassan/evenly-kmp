@@ -12,15 +12,15 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.example.evenly.core.common.STATE_STOP_TIMEOUT_MILLIS
-import org.example.evenly.core.common.succeeds
-import org.example.evenly.core.data.ExpenseRepository
-import org.example.evenly.core.data.GroupRepository
-import org.example.evenly.core.data.SettlementRepository
-import org.example.evenly.core.domain.GroupLedger
-import org.example.evenly.core.model.GroupId
-import org.example.evenly.core.model.MemberId
-import org.example.evenly.core.sync.SyncCoordinator
+import org.example.evenly.common.STATE_STOP_TIMEOUT_MILLIS
+import org.example.evenly.common.succeeds
+import org.example.evenly.data.repository.ExpenseRepository
+import org.example.evenly.data.repository.GroupRepository
+import org.example.evenly.data.repository.SettlementRepository
+import org.example.evenly.data.sync.SyncCoordinator
+import org.example.evenly.domain.group.GroupId
+import org.example.evenly.domain.group.MemberId
+import org.example.evenly.domain.ledger.GroupLedger
 
 class GroupViewModel(
     expenseRepository: ExpenseRepository,

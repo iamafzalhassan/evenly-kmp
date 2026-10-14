@@ -1,8 +1,8 @@
 package org.example.evenly.feature.group
 
-import org.example.evenly.core.model.MemberId
-import org.example.evenly.core.model.SettlementId
-import org.example.evenly.core.model.Transfer
+import org.example.evenly.domain.group.MemberId
+import org.example.evenly.domain.settlement.SettlementId
+import org.example.evenly.domain.settlement.Transfer
 
 sealed interface GroupEvent {
     data class AddMember(val name: String) : GroupEvent

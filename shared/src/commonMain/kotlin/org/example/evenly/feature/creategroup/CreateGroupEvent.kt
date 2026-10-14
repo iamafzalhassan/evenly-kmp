@@ -1,6 +1,6 @@
 package org.example.evenly.feature.creategroup
 
-import org.example.evenly.core.model.Currency
+import org.example.evenly.domain.money.Currency
 
 sealed interface CreateGroupEvent {
     data object AddMember : CreateGroupEvent

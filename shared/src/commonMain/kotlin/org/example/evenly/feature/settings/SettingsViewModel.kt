@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import org.example.evenly.core.common.STATE_STOP_TIMEOUT_MILLIS
-import org.example.evenly.core.common.succeeds
-import org.example.evenly.core.data.SettingsRepository
-import org.example.evenly.core.sync.SyncCoordinator
+import org.example.evenly.common.STATE_STOP_TIMEOUT_MILLIS
+import org.example.evenly.common.succeeds
+import org.example.evenly.data.repository.SettingsRepository
+import org.example.evenly.data.sync.SyncCoordinator
 
 class SettingsViewModel(private val settingsRepository: SettingsRepository, private val syncCoordinator: SyncCoordinator) : ViewModel() {
     private val feedback: MutableStateFlow<SettingsFeedback?> = MutableStateFlow(null)

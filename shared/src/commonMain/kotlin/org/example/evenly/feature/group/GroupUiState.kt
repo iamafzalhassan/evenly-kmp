@@ -1,14 +1,14 @@
 package org.example.evenly.feature.group
 
 import androidx.compose.runtime.Immutable
-import org.example.evenly.core.domain.MemberUsage
-import org.example.evenly.core.model.Balance
-import org.example.evenly.core.model.Expense
-import org.example.evenly.core.model.Group
-import org.example.evenly.core.model.MemberId
-import org.example.evenly.core.model.Money
-import org.example.evenly.core.model.Settlement
-import org.example.evenly.core.model.Transfer
+import org.example.evenly.domain.expense.Expense
+import org.example.evenly.domain.group.Group
+import org.example.evenly.domain.group.MemberId
+import org.example.evenly.domain.group.MemberUsage
+import org.example.evenly.domain.money.Money
+import org.example.evenly.domain.settlement.Balance
+import org.example.evenly.domain.settlement.Settlement
+import org.example.evenly.domain.settlement.Transfer
 
 @Immutable
 data class GroupUiState(

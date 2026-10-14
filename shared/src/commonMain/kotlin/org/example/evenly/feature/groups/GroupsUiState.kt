@@ -1,8 +1,8 @@
 package org.example.evenly.feature.groups
 
 import androidx.compose.runtime.Immutable
-import org.example.evenly.core.model.Group
-import org.example.evenly.core.model.GroupId
+import org.example.evenly.domain.group.Group
+import org.example.evenly.domain.group.GroupId
 
 @Immutable
 data class GroupsUiState(
